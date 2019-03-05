@@ -4,7 +4,7 @@ const fs = require("fs");
 module.exports.run = async (bot, message, args) => {
 
     let user =
-    client.request('get_user', , function(err, result) {
+    client.request('get_user', function(err, result) {
 
     })
 

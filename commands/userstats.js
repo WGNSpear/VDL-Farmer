@@ -36,7 +36,7 @@ module.exports.run = async (bot, message, args) => {
         if(troopsStr === ""){
             troopsStr += "No Troops!";
         }
-        console.log("waaaaaaaaaaaa " + troopsStr);
+  //      console.log("waaaaaaaaaaaa " + troopsStr);
         let statsembed = new Discord.RichEmbed()
             .setTitle("DrugWars User Stats")
             .setDescription("User Stats for: " + user)
@@ -48,7 +48,7 @@ module.exports.run = async (bot, message, args) => {
             .addField("Daily Alcohol Production: ", `${alcoholSpeed}`)
             .addField("Alcohol Safe: ", `${safeAlcohol}`)
             .addField("Troops: ", `${troopsStr}`);
-        console.log(statsembed);
+      //  console.log(statsembed);
         message.channel.send(statsembed);
 
 

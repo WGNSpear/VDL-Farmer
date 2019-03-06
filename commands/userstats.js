@@ -50,14 +50,11 @@ module.exports.run = async (bot, message, args) => {
             .setColor("#fffff")
             .addField("Daily Drug Production: ", `${drugSpeed}`)
             .addField("Drug safe: ", `${safeDrugs}`)
-            .addField("Drugs Balance", `${result.user.drugs_balance} \n *balance last updated at ${updatetime} GMT*`)
-            .addBlankField()
+            .addField("Drugs Balance", `${result.user.drugs_balance} \n *balance last updated at ${updatetime} GMT* \n ------------------------------------- `)
             .addField("Daily Weapons Production: ", `${weaponSpeed}`)
-            .addField("Weapon Safe: ", `${safeWeapons}`)
-            .addBlankField()
+            .addField("Weapon Safe: ", `${safeWeapons}  \n -------------------------------------`)
             .addField("Daily Alcohol Production: ", `${alcoholSpeed}`)
-            .addField("Alcohol Safe: ", `${safeAlcohol}`)
-            .addBlankField()
+            .addField("Alcohol Safe: ", `${safeAlcohol} \n -------------------------------------`)
             .addField("Troops: ", `${troopsStr}`)
 
 

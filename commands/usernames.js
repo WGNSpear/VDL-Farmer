@@ -1,33 +1,30 @@
 const Discord =require("discord.js");
 const fs = require("fs");
+const drugwars = require('drugwars');
+
 //any requirements go here
 module.exports.run = async (bot, message, args) => {
 
     //Command code goes here
-    var drugwars = require('drugwars');
-    const fs = require('fs');
-    var client = new drugwars.Client('wss://api.drugwars.io');
+    let client = new drugwars.Client('wss://api.drugwars.io');
     console.log("am on");
 
+    let totalAmount = "Users with no shield: \n";
     client.request('get_users', { maxDrugProductionRate : 1.5 }, function(err, result) {
-
-        let uname = Math.floor((Math.random() * result.length));
-        let shieldcheck = result[uname].shield_end;
-        console.log(shieldcheck);
-        if(shieldcheck < 1){
-            message.channel.send("Heres the chosen user: https://drugwars.io/@" + result[uname].username )
-    }
-
-        console.log(result[uname]), (err) => {
-            if (err) console.log(err)
+        for (let i = 0; i < result.length; i++) {
+            let theirShield = result[i].shield_end;
+            if (theirShield === 0) {
+                //message.channel.send("Heres the chosen user: https://drugwars.io/@" + result[i].username);
+                totalAmount += "https://drugwars.io/@" + result[i].username + "\n";
+                if (totalAmount.length > 1900) {
+                    break;
+                }
+            }
         }
-
-    message.channel.send("Heres the chosen user: https://drugwars.io/@" + result[uname].username )
-})
-
-
-}
+        message.channel.send(totalAmount);
+    });
+};
 
 module.exports.help = {
     name: "usernames" //Must rename this to name of the file
-}
+};

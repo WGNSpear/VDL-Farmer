@@ -1,6 +1,8 @@
 const Discord =require("discord.js");
 const fs = require("fs");
 const drugwars = require('drugwars');
+var moment = require('moment');
+
 
 //any requirements go here
 module.exports.run = async (bot, message, args) => {
@@ -10,7 +12,6 @@ module.exports.run = async (bot, message, args) => {
     if (!user) {
         return message.channel.send("Please specify a user!")
     }
-    let oneunit = "Users units: \n";
     client.request('get_user', user, function (err, result) {
         let userStats = result.user;
         let drugSpeed = (Math.floor(userStats.drug_production_rate * 3600 * 24));
@@ -21,7 +22,13 @@ module.exports.run = async (bot, message, args) => {
         let safeWeapons = (userStats.weapon_storage/4);
         let troopsStr = "No troops!";
         let l = result.units.length;
-        console.log(l)
+        console.log(l);
+        console.log(result);
+
+
+        let updatetime = moment(result.user.last_update).format("h:mm a");
+
+
         if (l !== 0) {
             troopsStr = "";
             for(let i = 0; i < result.units.length; i++) {
@@ -43,11 +50,17 @@ module.exports.run = async (bot, message, args) => {
             .setColor("#fffff")
             .addField("Daily Drug Production: ", `${drugSpeed}`)
             .addField("Drug safe: ", `${safeDrugs}`)
+            .addField("Drugs Balance", `${result.user.drugs_balance} \n *balance last updated at ${updatetime} GMT*`)
+            .addBlankField()
             .addField("Daily Weapons Production: ", `${weaponSpeed}`)
             .addField("Weapon Safe: ", `${safeWeapons}`)
+            .addBlankField()
             .addField("Daily Alcohol Production: ", `${alcoholSpeed}`)
             .addField("Alcohol Safe: ", `${safeAlcohol}`)
-            .addField("Troops: ", `${troopsStr}`);
+            .addBlankField()
+            .addField("Troops: ", `${troopsStr}`)
+
+
       //  console.log(statsembed);
         message.channel.send(statsembed);
 

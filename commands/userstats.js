@@ -14,6 +14,7 @@ module.exports.run = async (bot, message, args) => {
     }
     client.request('get_user', user, function (err, result) {
         let userStats = result.user;
+        let thumbnail = "https://steemitimages.com/u/" + result.user.username + "/avatar";
         let drugSpeed = (Math.floor(userStats.drug_production_rate * 3600 * 24));
         let safeDrugs = (userStats.drug_storage/4);
         let alcoholSpeed = (Math.floor(userStats.alcohol_production_rate * 3600 * 24));
@@ -48,6 +49,7 @@ module.exports.run = async (bot, message, args) => {
             .setTitle("DrugWars User Stats")
             .setDescription("User Stats for: " + user)
             .setColor("#fffff")
+            .setThumbnail(thumbnail)
             .addField("Daily Drug Production: ", `${drugSpeed}`)
             .addField("Drug safe: ", `${safeDrugs}`)
             .addField("Drugs Balance", `${result.user.drugs_balance} \n *balance last updated at ${updatetime} GMT* \n ------------------------------------- `)
@@ -55,7 +57,7 @@ module.exports.run = async (bot, message, args) => {
             .addField("Weapon Safe: ", `${safeWeapons}  \n -------------------------------------`)
             .addField("Daily Alcohol Production: ", `${alcoholSpeed}`)
             .addField("Alcohol Safe: ", `${safeAlcohol} \n -------------------------------------`)
-            .addField("Troops: ", `${troopsStr}`)
+            .addField("Troops: ", `${troopsStr}`);
 
 
       //  console.log(statsembed);

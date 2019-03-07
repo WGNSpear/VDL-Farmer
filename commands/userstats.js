@@ -1,6 +1,8 @@
 const Discord =require("discord.js");
 const fs = require("fs");
 const drugwars = require('drugwars');
+var moment = require('moment');
+
 
 //any requirements go here
 module.exports.run = async (bot, message, args) => {
@@ -10,18 +12,35 @@ module.exports.run = async (bot, message, args) => {
     if (!user) {
         return message.channel.send("Please specify a user!")
     }
-    let oneunit = "Users units: \n";
+
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwIiwicHJveHkiOiJkcnVnd2Fycy5hcHAiLCJ1c2VyIjoid2duc3BlYXIiLCJzY29wZSI6W10sImlhdCI6MTU1MTk5MzA2MCwiZXhwIjoxNTUyNTk3ODYwfQ.eSthvEerbSTsX7zwGE1Pgv-454cZ9bRm45wNWdteQYk';
+    client.request('login', token, function(err, result) {
+        console.log('Subscribe', err, result);
+
+     //   eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwIiwicHJveHkiOiJkcnVnd2Fycy5hcHAiLCJ1c2VyIjoibWVvd2dhbiIsInNjb3BlIjpbXSwiaWF0IjoxNTUxOTkwNDgwLCJleHAiOjE1NTI1OTUyODB9.hrGubKXbOUQVB4QfX1aTL9dy5xSc7m5ilmPcq_IPkOA
+
+
     client.request('get_user', user, function (err, result) {
         let userStats = result.user;
+        console.log(userStats);
         let drugSpeed = (Math.floor(userStats.drug_production_rate * 3600 * 24));
         let safeDrugs = (userStats.drug_storage/4);
         let alcoholSpeed = (Math.floor(userStats.alcohol_production_rate * 3600 * 24));
         let safeAlcohol = (userStats.alcohol_storage/4);
         let weaponSpeed = (Math.floor(userStats.weapon_production_rate * 3600 * 24));
         let safeWeapons = (userStats.weapon_storage/4);
+        let thumbnail = "https://steemitimages.com/u/" + result.user.username + "/avatar";
+
         let troopsStr = "No troops!";
         let l = result.units.length;
-        if (l === 0) {
+        console.log(l);
+        console.log(result);
+
+
+        let updatetime = moment(result.user.last_update).format("h:mm a");
+
+
+        if (l !== 0) {
             troopsStr = "";
             for(let i = 0; i < result.units.length; i++) {
                 if (result.units[i].amount !== 0) {
@@ -32,28 +51,43 @@ module.exports.run = async (bot, message, args) => {
                 }
             }
         }
-        console.log(troopsStr);
+        if(troopsStr === ""){
+            troopsStr += "No Troops!";
+        }
+        //      console.log("waaaaaaaaaaaa " + troopsStr);
         let statsembed = new Discord.RichEmbed()
             .setTitle("DrugWars User Stats")
-            .setDescription("User Stats for: " + user)
+            .setDescription("User Stats for: **" + user + "**\n https://drugwars.io/@" + user)
             .setColor("#fffff")
-            .addField("Daily Drug Production: ", `${drugSpeed}`)
-            .addField("Drug safe: ", `${safeDrugs}`)
+            .setThumbnail(thumbnail)
+            .addField("Daily Drugs Production: ", `${drugSpeed}`)
+            .addField("Drugs safe: ", `${safeDrugs}`)
+            .addField("Drugs Balance", `${result.user.drugs_balance} \n *balance last updated at ${updatetime} GMT* \n ------------------------------------- `)
             .addField("Daily Weapons Production: ", `${weaponSpeed}`)
-            .addField("Weapon Safe: ", `${safeWeapons}`)
+            .addField("Weapons Safe: ", `${safeWeapons}  `)
+            .addField("Weapons Balance: ", `${result.user.weapons_balance} \n *balance last updated at ${updatetime} GMT* \n -------------------------------------`)
             .addField("Daily Alcohol Production: ", `${alcoholSpeed}`)
-            .addField("Alcohol Safe: ", `${safeAlcohol}`)
-            .addField("Troops: ", `${troopsStr}`);
-        console.log(statsembed);
+            .addField("Alcohol Safe: ", `${safeAlcohol} `)
+            .addField("Alcohol Balance", `${result.user.alcohols_balance} \n *balance last updated at ${updatetime} GMT* \n -------------------------------------`)
+            .addField("Troops: ", `${troopsStr}`)
+
+
+        //  console.log(statsembed);
         message.channel.send(statsembed);
 
 
-       /*     msg.channel.send(`https://drugwars.io/@${uname}\n
-        Daily Drug Production: ${drugSpeed} - Safe: ${safeDrugs}\n
-        Daily Weapons Production: ${weaponSpeed} - Safe: ${safeWeapons}\n
-        Daily Alcohol Production: ${alcoholSpeed} Safe: ${safeAlcohol}`)
-*/
+        /*     msg.channel.send(`https://drugwars.io/@${uname}\n
+         Daily Drug Production: ${drugSpeed} - Safe: ${safeDrugs}\n
+         Daily Weapons Production: ${weaponSpeed} - Safe: ${safeWeapons}\n
+         Daily Alcohol Production: ${alcoholSpeed} Safe: ${safeAlcohol}`)
+ */
     })
+ });
+  //  const token = '5KakJnNuJoJfRrqCRE8EjP6cuXdmFLTBC3y9XakhbzY7CJquzBcs';
+  //  client.request('login', token, function(err, result) {
+//        console.log('Subscribe', err, result);
+  //  });
+
 };
 
 

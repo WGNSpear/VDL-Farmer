@@ -9,20 +9,28 @@ module.exports.run = async (bot, message, args) => {
     let client = new drugwars.Client('wss://api.drugwars.io');
     console.log("am on");
 
-    let totalAmount = "Users with no shield: \n";
-    client.request('get_users', { maxDrugProductionRate : 1.5 }, function(err, result) {
-        for (let i = 0; i < result.length; i++) {
-            let theirShield = result[i].shield_end;
-            if (theirShield === 0) {
-                //message.channel.send("Heres the chosen user: https://drugwars.io/@" + result[i].username);
-                totalAmount += "https://drugwars.io/@" + result[i].username + "\n";
-                if (totalAmount.length > 1900) {
-                    break;
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYXBwIiwicHJveHkiOiJkcnVnd2Fycy5hcHAiLCJ1c2VyIjoid2duc3BlYXIiLCJzY29wZSI6W10sImlhdCI6MTU1MTk5MzA2MCwiZXhwIjoxNTUyNTk3ODYwfQ.eSthvEerbSTsX7zwGE1Pgv-454cZ9bRm45wNWdteQYk';
+
+    client.request('login', token, function(err, result) {
+        console.log('Subscribe', err, result);
+
+
+        let totalAmount = "Users with no shield: \n";
+        client.request('get_users', {maxDrugProductionRate: 1.5}, function (err, result) {
+            for (let i = 0; i < result.length; i++) {
+                let theirShield = result[i].shield_end;
+                if (theirShield === 0) {
+                    //message.channel.send("Heres the chosen user: https://drugwars.io/@" + result[i].username);
+                    totalAmount += "https://drugwars.io/@" + result[i].username + "\n";
+                    if (totalAmount.length > 1900) {
+                        break;
+                    }
                 }
             }
-        }
-        message.channel.send(totalAmount);
-    });
+            message.channel.send(totalAmount);
+        });
+    })
+
 };
 
 module.exports.help = {

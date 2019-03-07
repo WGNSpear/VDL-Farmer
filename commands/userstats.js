@@ -21,6 +21,10 @@ module.exports.run = async (bot, message, args) => {
 
 
     client.request('get_user', user, function (err, result) {
+        console.log(err);
+        if(err === `Unable to get user "${user}"`){
+            return message.channel.send("Cannot find User!")
+        }
         let userStats = result.user;
         console.log(userStats);
         let drugSpeed = (Math.floor(userStats.drug_production_rate * 3600 * 24));

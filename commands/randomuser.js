@@ -33,8 +33,8 @@ module.exports.run = async (bot, message, args) => {
         console.log("waaaaaaaaaa", uname);
         client.request('get_user', `${uname}`, function(err, result) {
             console.log(err);
-            if(err === `Unable to get user "undefined"`){
-                message.channel.send("Cannot find User!")
+            if(err === `Unable to get user "${user}"`){
+                return message.channel.send("Cannot find User!")
             }
             let userStats = result.user;
             console.log(userStats);

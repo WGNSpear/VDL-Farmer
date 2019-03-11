@@ -1,17 +1,15 @@
 {
-  "name": "socialhelper",
+  "name": "thread",
   "version": "1.0.0",
-  "description": "A discord bot to buy followers, likes, youtube views etc",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Spear",
+  "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.4.2",
-    "drugwars": "0.0.8",
-    "npm": "^6.7.0",
-    "request": "^2.88.0"
+    "circular-json": "^0.5.7",
+    "discord.js": "^11.4.2"
   }
 }

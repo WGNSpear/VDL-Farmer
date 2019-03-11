@@ -2,7 +2,7 @@ const Discord =require("discord.js");
 const fs = require("fs");
 const drugwars = require('drugwars');
 var moment = require('moment');
-var pageMenu = require('pagemenu');
+var pageMenu = require('@quantiom/pagemenu');
 const botconfig = require("../botconfig.json");
 //any requirements go here
 module.exports.run = async (bot, message, args) => {

@@ -4,7 +4,7 @@ const drugwars = require("drugwars");
 const client = new drugwars.Client('wss://api.drugwars.io');
 const botconfig = require("../botconfig.json");
 const token = botconfig.sctoken;
-let rannum = Math.floor((Math.random() * 100) + 1);
+let rannum = Math.floor((Math.random() * 3) + 1);
 var moment = require('moment');
 
 module.exports.run = async (bot, message, args) => {
